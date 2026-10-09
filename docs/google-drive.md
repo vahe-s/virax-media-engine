@@ -110,4 +110,9 @@ Treat old permissions and schedules as historical records during recovery.
 Do not replay them automatically.
 
 Drive stores the work. A computer or server still runs the queue and sync service.
-The integration has mock tests; this release does not claim a live account test.
+A private account test passed on 2026-10-09 with the native Google connection.
+All 42 uploaded files matched their local file checksums.
+The folder retained owner-only access.
+An automatic update also passed after a saved profile change.
+Credentials and private account details remain outside this public repository.
+See [release verification](verification.md) for the tested scope and remaining limits.

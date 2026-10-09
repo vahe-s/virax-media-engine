@@ -41,7 +41,8 @@ It does not prove that every possible secret is absent.
 
 ## Browser checks
 
-The local browser checks used fictional brands only.
+The interface checks below used fictional brands.
+A separate authorized account test follows them.
 
 - Created a new brand and saved its setup answers.
 - Saved two funny posts and two factual posts per week with a custom CTA.
@@ -62,10 +63,31 @@ Screenshots:
 The pasted-link browser test used an example URL.
 It tested intake only and did not claim a live reference inspection or generation.
 
+## Authorized account test
+
+On 2026-10-09, a fresh private installation completed the native Google Drive connection.
+The owner approved the account, file permission, private credential storage, and brand backup.
+
+- The app received consent for `drive.file` and verified the selected account through Google's API.
+- The first backup copied 42 files, including profiles, rules, original assets, finished images, captions, sources, and history.
+- A separate read through Google's API confirmed every remote checksum against the local bytes.
+- The destination folder had owner-only access and no shared access.
+- The backup excluded connection tokens and environment files.
+- An automatic backup copied a later profile change without a manual sync request.
+- A separate API read then confirmed all 42 file checksums for the changed profile.
+
+The three real image samples also passed full-size and 390 px checks.
+The owner selected two of the three styles.
+The exact content still requires approval before publication.
+Private files, account identifiers, and credentials are excluded from this public repository.
+Account changes, retries, and conflicts retain automated tests with simulated responses.
+The live test does not establish those recovery cases for every Google account.
+
 ## Limits
 
 No private jewelry account, content, token, or schedule was used in these public-engine tests.
-Live Google Drive and Meta account tests remain incomplete for this release.
+The live Google Drive test covers one authorized private installation.
+Live Meta identity and publication tests remain incomplete for this release.
 No cloud host or paid provider was activated.
 Container deployment needs its own environment test.
 The agent's image and browser tools are external capabilities, not hidden tools inside the Node server.
