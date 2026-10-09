@@ -19,6 +19,7 @@
 | Google Drive backup sync | Native connection; manual and automatic copies verified live | Own Google OAuth app and account consent |
 | Google account changes | Separate destinations; mock-tested | Enable each brand backup again after an account change |
 | Live Google Drive test | Private account test passed on 2026-10-09 | Each installation still needs its own consent and file check |
+| Live Meta account connection | Instagram identity and publication limit reads passed on 2026-10-09 | Each installation needs its own account check and publication test |
 | Live Meta publication test | Not completed for this public engine | A user's authorized test account |
 
 The API adapter supports Instagram Login and Facebook Login tokens.
@@ -100,4 +101,6 @@ Platform capabilities and permissions change.
 Check the current official documentation before enabling an account.
 Meta's documentation was not fully retrievable during this release audit.
 The adapter tests validate request and recovery behavior with mocked responses.
-They do not establish current live access or account eligibility.
+The separate live test verified one Instagram account identity and its publication limit response.
+That test did not publish content or verify every permission.
+It does not establish eligibility for other accounts or formats.

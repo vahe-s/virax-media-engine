@@ -75,6 +75,8 @@ The owner approved the account, file permission, private credential storage, and
 - The backup excluded connection tokens and environment files.
 - An automatic backup copied a later profile change without a manual sync request.
 - A separate API read then confirmed all 42 file checksums for the changed profile.
+- The later style selection increased the backup to 48 files.
+- Another API read confirmed all 48 checksums and owner-only folder access.
 
 The three real image samples also passed full-size and 390 px checks.
 The owner selected two of the three styles.
@@ -83,11 +85,23 @@ Private files, account identifiers, and credentials are excluded from this publi
 Account changes, retries, and conflicts retain automated tests with simulated responses.
 The live test does not establish those recovery cases for every Google account.
 
+The same installation completed the authorized Instagram connection through Meta's developer interface.
+
+- The official Instagram API confirmed the expected account name and numeric ID.
+- The publication limit request succeeded for that account.
+- A permission-list request failed; it did not verify the granted permissions.
+- The token remains in private storage and is excluded from Drive backup and Git.
+- The prepared post still awaits exact content and publication approval.
+
+These reads do not prove that publication works.
+No live publication request occurred during this connection test.
+
 ## Limits
 
 No private jewelry account, content, token, or schedule was used in these public-engine tests.
 The live Google Drive test covers one authorized private installation.
-Live Meta identity and publication tests remain incomplete for this release.
+Live Meta identity verification passed for one authorized account.
+The live Meta publication test remains incomplete for this release.
 No cloud host or paid provider was activated.
 Container deployment needs its own environment test.
 The agent's image and browser tools are external capabilities, not hidden tools inside the Node server.
