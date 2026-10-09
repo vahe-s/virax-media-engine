@@ -9,7 +9,8 @@
 | Instagram DM triggers | Excluded from the public engine | Use a pasted public reference link |
 | Image creation | Agent-assisted | An authorized image tool or supplied images |
 | Original image import and exports | Implemented | JPEG, PNG, or WebP images |
-| Instagram Feed images and carousels | Meta adapter; mock-tested | Professional account, authorized app, token, public media URLs |
+| Instagram Feed single images | Meta adapter; one authorized post verified live | Professional account, authorized app, token, public media URLs |
+| Instagram Feed carousels | Meta adapter; mock-tested | Professional account, authorized app, token, public media URLs |
 | Instagram image Stories | Meta adapter; mock-tested | Eligible account and permissions |
 | Facebook Page photo posts | Meta adapter; mock-tested | Page token and approved permissions |
 | Facebook Stories | Manual | Native platform or supported browser tools |
@@ -20,7 +21,7 @@
 | Google account changes | Separate destinations; mock-tested | Enable each brand backup again after an account change |
 | Live Google Drive test | Private account test passed on 2026-10-09 | Each installation still needs its own consent and file check |
 | Live Meta account connection | Instagram identity and publication limit reads passed on 2026-10-09 | Each installation needs its own account check and publication test |
-| Live Meta publication test | Not completed for this public engine | A user's authorized test account |
+| Live Meta publication test | One Instagram Feed image passed on 2026-10-09 | Each account and additional format still needs its own test |
 
 The API adapter supports Instagram Login and Facebook Login tokens.
 It does not include an OAuth application or a hosted token exchange.
@@ -102,5 +103,8 @@ Check the current official documentation before enabling an account.
 Meta's documentation was not fully retrievable during this release audit.
 The adapter tests validate request and recovery behavior with mocked responses.
 The separate live test verified one Instagram account identity and its publication limit response.
-That test did not publish content or verify every permission.
+A later authorized test published one Feed image through the local queue.
+The API readback confirmed the post ID, caption, image type, and permalink.
+The visible Instagram post matched the approved image and caption.
+This did not verify every permission.
 It does not establish eligibility for other accounts or formats.

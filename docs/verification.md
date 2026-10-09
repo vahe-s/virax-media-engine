@@ -80,7 +80,7 @@ The owner approved the account, file permission, private credential storage, and
 
 The three real image samples also passed full-size and 390 px checks.
 The owner selected two of the three styles.
-The exact content still requires approval before publication.
+The owner then approved one exact image and caption for the publication test.
 Private files, account identifiers, and credentials are excluded from this public repository.
 Account changes, retries, and conflicts retain automated tests with simulated responses.
 The live test does not establish those recovery cases for every Google account.
@@ -91,17 +91,31 @@ The same installation completed the authorized Instagram connection through Meta
 - The publication limit request succeeded for that account.
 - A permission-list request failed; it did not verify the granted permissions.
 - The token remains in private storage and is excluded from Drive backup and Git.
-- The prepared post still awaits exact content and publication approval.
+- A separate permission record covered one approved Feed image without music.
 
-These reads do not prove that publication works.
-No live publication request occurred during this connection test.
+The connection reads alone did not prove publication.
+The later live test completed these steps:
+
+- A separate public media repository received only the approved JPEG and a short README.
+- A download from its immutable URL matched the approved image hash.
+- The local queue saved the selected time in `America/New_York` and UTC.
+- The server worker published the due post through the official Instagram API.
+- The API readback confirmed the post ID, exact caption, image type, and permalink.
+- A browser check confirmed the visible image, caption, and account.
+- The operation ledger recorded one completed publication.
+- Live publication was disabled after the test, and the server restarted.
+- Drive copied the publication record automatically; all 48 remote file checksums matched the current local files.
+
+Private evidence retains the actual post link and response records.
+The public repository contains no private connection files.
 
 ## Limits
 
 No private jewelry account, content, token, or schedule was used in these public-engine tests.
 The live Google Drive test covers one authorized private installation.
 Live Meta identity verification passed for one authorized account.
-The live Meta publication test remains incomplete for this release.
+The live Meta publication test covers one Instagram Feed image without music.
+Carousels, Stories, and Facebook publication retain contract tests with simulated responses.
 No cloud host or paid provider was activated.
 Container deployment needs its own environment test.
 The agent's image and browser tools are external capabilities, not hidden tools inside the Node server.

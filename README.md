@@ -99,7 +99,7 @@ Client posts follow the client's own brand rules.
 | Media export and review | Real assets, phone previews, captions, sources, and exact-version approval |
 | Google Drive backup sync | Manual and automatic backups verified with one authorized private account |
 | Local publication queue | Durable schedules, permissions, duplicate checks, and recovery |
-| Meta images, carousels, and image Stories | Account identity verified live; publication still needs an authorized live test |
+| Meta publication | One Instagram Feed image verified live; carousels, Stories, and Facebook use simulated contract tests |
 | Music and video publication | Documented native or agent-assisted path |
 
 The engine does not run a hidden model or add an AI provider bill.
