@@ -1,0 +1,25 @@
+{
+  "name": "virax-engine-machine",
+  "version": "0.1.0",
+  "description": "An open source, agent-guided media studio for business content.",
+  "type": "module",
+  "license": "MIT",
+  "engines": {
+    "node": ">=22.16 <25"
+  },
+  "scripts": {
+    "start": "node --env-file-if-exists=.env.local src/server.mjs",
+    "demo": "node --env-file-if-exists=.env.local src/server.mjs --demo",
+    "engine": "node --env-file-if-exists=.env.local src/cli.mjs",
+    "test": "node --test --test-concurrency=1 test/*.test.mjs",
+    "check": "node scripts/check.mjs",
+    "demo:build": "node scripts/build-examples.mjs"
+  },
+  "dependencies": {
+    "@resvg/resvg-js": "2.6.2",
+    "fflate": "0.8.3",
+    "fontkit": "2.0.4",
+    "google-auth-library": "10.5.0",
+    "sharp": "0.35.5"
+  }
+}

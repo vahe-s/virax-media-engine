@@ -1,0 +1,119 @@
+{
+  "title": "Replace with the approved image-only concept",
+  "format": "carousel",
+  "mode": "image-only",
+  "platform": "instagram",
+  "caption": "Replace with the approved caption.",
+  "music": "none",
+  "slides": [
+    {
+      "image": "media/slide-01.png",
+      "rightsConfirmed": false,
+      "provenance": "Record the actual source, tool, or license.",
+      "headline": "",
+      "body": "",
+      "message": "Describe the distinct purpose of slide 1.",
+      "evidence": "Describe what the viewer must see.",
+      "composition": "Describe this image's distinct composition.",
+      "callouts": "",
+      "alt": "Describe the final visible image."
+    },
+    {
+      "image": "media/slide-02.png",
+      "rightsConfirmed": false,
+      "provenance": "Record the actual source, tool, or license.",
+      "headline": "",
+      "body": "",
+      "message": "Describe the distinct purpose of slide 2.",
+      "evidence": "Describe what the viewer must see.",
+      "composition": "Describe this image's distinct composition.",
+      "callouts": "",
+      "alt": "Describe the final visible image."
+    },
+    {
+      "image": "media/slide-03.png",
+      "rightsConfirmed": false,
+      "provenance": "Record the actual source, tool, or license.",
+      "headline": "",
+      "body": "",
+      "message": "Describe the distinct purpose of slide 3.",
+      "evidence": "Describe what the viewer must see.",
+      "composition": "Describe this image's distinct composition.",
+      "callouts": "",
+      "alt": "Describe the final visible image."
+    },
+    {
+      "image": "media/slide-04.png",
+      "rightsConfirmed": false,
+      "provenance": "Record the actual source, tool, or license.",
+      "headline": "",
+      "body": "",
+      "message": "Describe the distinct purpose of slide 4.",
+      "evidence": "Describe what the viewer must see.",
+      "composition": "Describe this image's distinct composition.",
+      "callouts": "",
+      "alt": "Describe the final visible image."
+    },
+    {
+      "image": "media/slide-05.png",
+      "rightsConfirmed": false,
+      "provenance": "Record the actual source, tool, or license.",
+      "headline": "",
+      "body": "",
+      "message": "Describe the distinct purpose of slide 5.",
+      "evidence": "Describe what the viewer must see.",
+      "composition": "Describe this image's distinct composition.",
+      "callouts": "",
+      "alt": "Describe the final visible image."
+    },
+    {
+      "image": "media/slide-06.png",
+      "rightsConfirmed": false,
+      "provenance": "Record the actual source, tool, or license.",
+      "headline": "",
+      "body": "",
+      "message": "Describe the distinct purpose of slide 6.",
+      "evidence": "Describe what the viewer must see.",
+      "composition": "Describe this image's distinct composition.",
+      "callouts": "",
+      "alt": "Describe the final visible image."
+    },
+    {
+      "image": "media/slide-07.png",
+      "rightsConfirmed": false,
+      "provenance": "Record the actual source, tool, or license.",
+      "headline": "",
+      "body": "",
+      "message": "Describe the distinct purpose of slide 7.",
+      "evidence": "Describe what the viewer must see.",
+      "composition": "Describe this image's distinct composition.",
+      "callouts": "",
+      "alt": "Describe the final visible image."
+    },
+    {
+      "image": "media/slide-08.png",
+      "rightsConfirmed": false,
+      "provenance": "Record the actual source, tool, or license.",
+      "headline": "",
+      "body": "",
+      "message": "Describe the distinct purpose of slide 8.",
+      "evidence": "Describe what the viewer must see.",
+      "composition": "Describe this image's distinct composition.",
+      "callouts": "",
+      "alt": "Describe the final visible image."
+    },
+    {
+      "image": "media/slide-09.png",
+      "rightsConfirmed": false,
+      "provenance": "Record the actual source, tool, or license.",
+      "headline": "",
+      "body": "",
+      "message": "Describe the distinct purpose of slide 9.",
+      "evidence": "Describe what the viewer must see.",
+      "composition": "Describe this image's distinct composition.",
+      "callouts": "",
+      "alt": "Describe the final visible image."
+    }
+  ],
+  "claims": []
+}

@@ -1,0 +1,53 @@
+{
+  "version": 2,
+  "reviewer": "Record the person or agent who inspected these exports.",
+  "accuracy": false,
+  "sourcesShown": false,
+  "slides": [
+    {
+      "number": 1,
+      "visual": false,
+      "phone": false
+    },
+    {
+      "number": 2,
+      "visual": false,
+      "phone": false
+    },
+    {
+      "number": 3,
+      "visual": false,
+      "phone": false
+    },
+    {
+      "number": 4,
+      "visual": false,
+      "phone": false
+    },
+    {
+      "number": 5,
+      "visual": false,
+      "phone": false
+    },
+    {
+      "number": 6,
+      "visual": false,
+      "phone": false
+    },
+    {
+      "number": 7,
+      "visual": false,
+      "phone": false
+    },
+    {
+      "number": 8,
+      "visual": false,
+      "phone": false
+    },
+    {
+      "number": 9,
+      "visual": false,
+      "phone": false
+    }
+  ]
+}

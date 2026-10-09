@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "stage": 1,
+  "answers": {
+    "name": "Your confirmed business name",
+    "business": "Describe one product or service and the problem it solves.",
+    "website": "",
+    "location": "Your confirmed service area",
+    "competitors": "Public competitor references, if useful"
+  }
+}

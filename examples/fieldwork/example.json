@@ -1,0 +1,167 @@
+{
+  "schemaVersion": 1,
+  "brand": {
+    "name": "Fieldwork Coffee",
+    "fictional": true,
+    "answers": {
+      "name": "Fieldwork Coffee",
+      "business": "A fictional specialty coffee studio for this public demonstration.",
+      "website": "",
+      "location": "Fictional demonstration. No operating location.",
+      "audience": "People who enjoy a thoughtful coffee ritual and tactile product photography.",
+      "problems": "How do the objects, textures, and small moments of a coffee ritual fit together?",
+      "goals": "Build trust and awareness",
+      "language": "English",
+      "formats": [
+        "Carousel",
+        "Single image",
+        "Instagram Story"
+      ],
+      "frequency": "3",
+      "topics": "Coffee rituals, objects, texture, and quiet everyday moments.",
+      "cta": "Follow for useful content",
+      "colors": "#b95c3d, #eee9dc, #3e4a32",
+      "fonts": "",
+      "tone": "Quiet and refined",
+      "special": "Use original still life images. No people, offers, prices, locations, or claims about actual inventory.",
+      "media": [
+        "Original generated images"
+      ],
+      "textMode": "Images only",
+      "references": "This original nine-image photo sequence defines the showcase. It contains no text overlays.",
+      "music": "No music required",
+      "facts": "Fictional example brand. No product or service is offered.",
+      "limits": "No health claims. No measurable taste, freshness, or quality claims.",
+      "sources": "This showcase contains visual concepts and editorial copy. It makes no technical claims.",
+      "rights": "I own them or have permission",
+      "platforms": [
+        "Instagram"
+      ],
+      "timezone": "America/New_York",
+      "budget": "0 USD for automatic external generation. Use the included demonstration media.",
+      "approval": "Review each post"
+    }
+  },
+  "images": [
+    "01-ritual.jpg",
+    "02-beans.jpg",
+    "03-grind.jpg",
+    "04-water.jpg",
+    "05-filter.jpg",
+    "06-bloom.jpg",
+    "07-pour.jpg",
+    "08-pause.jpg",
+    "09-finish.jpg"
+  ],
+  "caption": "A little light. A little texture. A moment worth keeping.\n\nA visual study of the morning coffee ritual, from the first bean to the final pause.\n\nFieldwork Coffee is a fictional example brand from VIRAX Engine Machine.",
+  "scenes": [
+    {
+      "message": "Introduce the quiet morning ritual.",
+      "evidence": "One cup of black coffee and a linen cloth in morning light.",
+      "composition": "Warm architectural still life on a terracotta plinth.",
+      "alt": "An ivory cup of black coffee and a linen cloth on a terracotta plinth, with long morning shadows."
+    },
+    {
+      "message": "Look closely at the raw texture.",
+      "evidence": "Visible grooves and irregular surfaces on roasted coffee beans.",
+      "composition": "Macro view of beans in a steel scoop with a coral background.",
+      "alt": "A close view of roasted coffee beans in a brushed steel scoop against a coral background."
+    },
+    {
+      "message": "Show three visually different ground textures.",
+      "evidence": "Three separate piles with coarse, medium, and fine particles.",
+      "composition": "Overhead comparison on ivory paper with a small spoon.",
+      "alt": "Three separate piles of coffee grounds with visibly different particle sizes on ivory paper."
+    },
+    {
+      "message": "Introduce the water and the glass.",
+      "evidence": "A narrow stream enters the transparent glass carafe.",
+      "composition": "A cropped kettle spout above a glass carafe against pale green.",
+      "alt": "A steel gooseneck kettle pours clear water into a glass carafe against a pale green background."
+    },
+    {
+      "message": "Give the filter its own moment.",
+      "evidence": "The conical paper filter rests inside a ridged ceramic dripper.",
+      "composition": "Close view above a clear carafe on coral tiles.",
+      "alt": "A damp paper filter sits in an ivory ceramic coffee dripper above a clear glass carafe."
+    },
+    {
+      "message": "Show the active texture of the brew.",
+      "evidence": "Wet grounds and small visible bubbles inside a paper filter.",
+      "composition": "Close overhead view of a stream of water entering coffee grounds.",
+      "alt": "A close view of water entering wet coffee grounds, with bubbles on the surface inside a paper filter."
+    },
+    {
+      "message": "Follow the coffee into the carafe.",
+      "evidence": "Coffee droplets fall from the dripper into the glass vessel.",
+      "composition": "Side view with sunlight through the dark coffee.",
+      "alt": "Coffee drops fall from an ivory dripper into a glass carafe, with sunlight through the brown coffee."
+    },
+    {
+      "message": "Move from preparation to a shared pause.",
+      "evidence": "Two cups, one closed book, and a café table.",
+      "composition": "Afternoon shadows across a terracotta table, without people.",
+      "alt": "Two ivory cups of black coffee and a closed book sit on a terracotta café table in afternoon light."
+    },
+    {
+      "message": "Finish with one deliberate still life.",
+      "evidence": "A cup, linen cloth, and bowl of beans form a complete arrangement.",
+      "composition": "Balanced objects on a coral pedestal against pale lime.",
+      "alt": "An ivory cup of coffee, folded linen, and a small bowl of beans on a coral pedestal against pale lime."
+    }
+  ],
+  "claims": [],
+  "sourceRecord": {
+    "classification": "Original visual showcase; no technical or business claims.",
+    "primarySources": [],
+    "generatedWith": "Built-in imagegen tool",
+    "createdOn": "2026-10-08",
+    "prompts": [
+      {
+        "id": "01-ritual",
+        "prompt": "A single ivory porcelain cup of black coffee on a large terracotta plinth. Hard morning sunlight from the left casts a long architectural shadow across a warm off-white wall. One tiny linen cloth. Wide sculptural composition, premium coffee campaign.",
+        "shared": "Portrait 4:5 original editorial coffee photograph. No text, logos, watermarks, people, or hands."
+      },
+      {
+        "id": "02-beans",
+        "prompt": "Extreme macro still life of roasted coffee beans in a brushed steel measuring scoop. Precise tactile bean grooves and natural irregular shapes. Deep espresso brown shadows and a warm coral backdrop. No steam.",
+        "shared": "Portrait 4:5 original editorial coffee photograph. No text, logos, watermarks, people, or hands."
+      },
+      {
+        "id": "03-grind",
+        "prompt": "Top-down view of three separate small piles of coarse, medium, and fine ground coffee on ivory paper, each texture visually distinct. A small unbranded brass spoon near the edge. No labels or writing. Clean comparison composition.",
+        "shared": "Portrait 4:5 original editorial coffee photograph. No text, logos, watermarks, people, or hands."
+      },
+      {
+        "id": "04-water",
+        "prompt": "A graceful narrow stream of clear water falls from the cropped spout of a brushed steel gooseneck kettle into an empty clear glass server. No person or hands. Bright side light, soft lime-green backdrop, rich glass refraction.",
+        "shared": "Portrait 4:5 original editorial coffee photograph. No text, logos, watermarks, people, or hands."
+      },
+      {
+        "id": "05-filter",
+        "prompt": "Close-up of a white conical paper coffee filter seated correctly in a ridged ivory ceramic dripper over a clear carafe. Damp paper texture, no coffee grounds. Soft morning light, coral tile counter, gentle green background.",
+        "shared": "Portrait 4:5 original editorial coffee photograph. No text, logos, watermarks, people, or hands."
+      },
+      {
+        "id": "06-bloom",
+        "prompt": "High close-up of a realistic coffee bloom inside a paper filter, wet grounds gently domed with small bubbles. White ceramic dripper against dark warm brown. A narrow stream of water enters at frame edge. No hands.",
+        "shared": "Portrait 4:5 original editorial coffee photograph. No text, logos, watermarks, people, or hands."
+      },
+      {
+        "id": "07-pour",
+        "prompt": "Side-angle view of a glass carafe with fresh amber-brown coffee beneath an ivory ceramic dripper. A few drops descend into the carafe. Natural sunlight highlights the transparent coffee edge. Olive-green backdrop, linen surface.",
+        "shared": "Portrait 4:5 original editorial coffee photograph. No text, logos, watermarks, people, or hands."
+      },
+      {
+        "id": "08-pause",
+        "prompt": "Two ivory cups of black coffee on a clean terracotta café table, one nearer and one farther, with a closed small book without text. Graphic afternoon shadows from a window. No humans. Warm and quiet cinematic editorial.",
+        "shared": "Portrait 4:5 original editorial coffee photograph. No text, logos, watermarks, people, or hands."
+      },
+      {
+        "id": "09-finish",
+        "prompt": "Sculptural final still life: one full ivory cup of coffee, a folded natural linen napkin, and a small bowl of roasted beans. Pale lime backdrop and coral rectangular pedestal, balanced asymmetry, generous negative space.",
+        "shared": "Portrait 4:5 original editorial coffee photograph. No text, logos, watermarks, people, or hands."
+      }
+    ]
+  }
+}

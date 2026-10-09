@@ -1,0 +1,93 @@
+# Platform connections
+
+## Support in version 0.1
+
+| Function | Status | What the user needs |
+| --- | --- | --- |
+| Brand interview and saved rules | Chat is primary; companion is optional | Capable agent and private files |
+| Pasted reference links | Implemented intake and draft records | Agent inspects actual media and creates the adaptation |
+| Instagram DM triggers | Excluded from the public engine | Use a pasted public reference link |
+| Image creation | Agent-assisted | An authorized image tool or supplied images |
+| Original image import and exports | Implemented | JPEG, PNG, or WebP images |
+| Instagram Feed images and carousels | Meta adapter; mock-tested | Professional account, authorized app, token, public media URLs |
+| Instagram image Stories | Meta adapter; mock-tested | Eligible account and permissions |
+| Facebook Page photo posts | Meta adapter; mock-tested | Page token and approved permissions |
+| Facebook Stories | Manual | Native platform or supported browser tools |
+| Music | Manual | Track rights and native format support |
+| Reels and other video | Agent-assisted/manual | Video tool and native publication path |
+| Other platforms | Manual | Native app or separately verified connector |
+| Google Drive backup sync | Native connection; mock-tested | Own Google OAuth app and account consent |
+| Live Google Drive test | Not completed for this public engine | A user's authorized Google account |
+| Live Meta publication test | Not completed for this public engine | A user's authorized test account |
+
+The API adapter uses Facebook Login for Instagram professional accounts.
+It does not include an OAuth application or a hosted token exchange.
+Each installation supplies its own credentials through the environment.
+Identity verification alone does not establish every publication permission.
+
+## Meta setup
+
+1. Create or use your own Meta developer application.
+2. Select the Instagram and Facebook functions you actually need.
+3. Complete Meta's account, role, permission, and review requirements.
+4. Obtain the appropriate token through Meta's supported flow.
+5. Copy `.env.example` to `.env.local`.
+6. Set the Graph API version supported by your application.
+7. Set the token and the intended account IDs.
+8. Run `npm run engine -- meta-verify`.
+9. Confirm the returned account names and numeric IDs.
+10. Stage the approved exports on a public HTTPS media host.
+11. Grant permission for one test post in the intended account.
+12. Set `ENGINE_LIVE_PUBLISH=true` for that authorized test.
+13. Inspect the result and the platform readback before production use.
+
+Do not paste a real token into a chat, issue, or public repository.
+Save the numeric account ID in each Meta publication grant.
+The adapter checks both the name and ID before publication.
+Use the platform's private authorization flow or the host's secret controls.
+The engine does not reuse credentials from another application.
+
+## Public media URLs
+
+Set `META_PUBLIC_MEDIA_BASE` to a controlled HTTPS asset location.
+Copy only the approved media into this structure:
+
+```text
+BASE/POST_ID/vVERSION/slide-01.jpg
+BASE/POST_ID/vVERSION/slide-02.jpg
+```
+
+Keep version paths immutable.
+Check the uploaded bytes against the export manifest hashes.
+Private Drive share pages are not direct image URLs.
+This release does not upload to a cloud media host automatically.
+An authorized agent can perform that step with a connected storage tool.
+
+## Schedules and music
+
+The engine stores a durable local schedule.
+At the due time, its worker calls the selected provider.
+Meta does not hold a native schedule from this queue entry.
+The worker service must remain online.
+
+Use account activity data for timing when it is available.
+Treat external benchmarks as hypotheses to test.
+Save the source, check date, audience timezone, and rationale with the plan.
+Do not promise an engagement rate from a time slot.
+
+Required music blocks the automatic Meta path in this release.
+Use the native manual path and inspect the attached audio.
+Never replace a requested carousel with a Reel without permission.
+Never assume music can be added after publication.
+
+## Official references
+
+- https://developers.facebook.com/docs/instagram-platform/instagram-api-with-facebook-login/content-publishing
+- https://developers.facebook.com/docs/pages-api/posts/
+- https://www.postman.com/meta/instagram/
+
+Platform capabilities and permissions change.
+Check the current official documentation before enabling an account.
+Meta's documentation was not fully retrievable during this release audit.
+The adapter tests validate request and recovery behavior with mocked responses.
+They do not establish current live access or account eligibility.
