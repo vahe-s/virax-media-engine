@@ -5,10 +5,11 @@ import { resolve, join, relative } from 'node:path';
 import sharp from 'sharp';
 import { unzipSync } from 'fflate';
 import { Store } from '../src/store.mjs';
-import { Engine, contentHash } from '../src/engine.mjs';
+import { Engine, contentHash, digest } from '../src/engine.mjs';
 import { addAsset, renderPost, exportPack } from '../src/media.mjs';
 import { Worker } from '../src/worker.mjs';
 import { MetaProvider } from '../src/providers.mjs';
+import { DriveSync } from '../src/drive.mjs';
 import { resolveTime } from '../src/time.mjs';
 import { recommendations } from '../src/interview.mjs';
 
@@ -56,6 +57,27 @@ test('rights, distinct images, source metadata, and brand ownership block unsafe
   assert.match(f.engine.quality(p.id).errors.join(' '),/from this brand/);
 });
 test('image-only content cannot pass with text overlays',async t=>{const f=await fixture(t);f.post=f.engine.editPost(f.post.id,{version:f.post.version,slides:[{...f.post.slides[0],headline:'Unrequested text'}]});assert.match(f.engine.quality(f.post.id).errors.join(' '),/remove text overlays/);});
+
+test('finished artwork retains its layout while text and fact checks remain required',async t=>{
+  const f=await fixture(t);
+  let p=f.engine.createPost(f.brand.id,{format:'single',mode:'educational',artworkMode:'finished'});
+  p=f.engine.editPost(p.id,{version:p.version,caption:'An editorial test.',slides:[{...f.post.slides[0],headline:'Text already in the artwork',body:'Do not place this text over the image again.'}],claims:[{slide:1,claim:'A visual concept.',kind:'illustration'}]});
+  p=await renderPost(f.engine,f.root,p.id);
+  const source=await readFile(join(f.root,f.asset.file));
+  const expected=await sharp(source).resize(1080,1350,{fit:'cover'}).jpeg({quality:93,mozjpeg:true}).toBuffer();
+  assert.equal(digest(await readFile(join(f.root,p.render.files[0].file))),digest(expected));
+  const pack=unzipSync(await exportPack(f.engine,f.root,p.id));
+  assert.ok(pack['media/slide-01.jpg']);
+  assert.equal(pack['editable/slide-01.svg'],undefined);
+  assert.match(f.engine.quality(p.id).errors.join(' '),/factual claim/);
+  const priorHash=contentHash(p);
+  p=f.engine.editPost(p.id,{version:p.version,artworkMode:'overlay'});
+  assert.notEqual(contentHash(p),priorHash);
+  const backup=await new DriveSync(f.engine,f.root,{env:{}}).collect(f.brand.id);
+  assert.ok(backup.some(file=>file.path===`posts/${p.id}/v${p.render.version}/slide-01.jpg`));
+  assert.ok(!backup.some(file=>file.path.endsWith('.svg')));
+  assert.throws(()=>f.engine.editPost(p.id,{version:p.version,artworkMode:'unknown'}),/artwork/);
+});
 test('DST rejects missing times and requires a choice for repeated times',()=>{
   assert.throws(()=>resolveTime('2026-03-08T02:30','America/New_York'),/does not exist/);
   assert.throws(()=>resolveTime('2026-11-01T01:30','America/New_York'),/occurs twice/);
@@ -104,6 +126,29 @@ test('Meta adapter checks account, commits once, and reads back the result (mock
 });
 test('Story export is a separate portrait asset and separate publication entry',async t=>{
   const f=await fixture(t);let p=f.engine.createPost(f.brand.id,{format:'story',mode:'image-only'});p=f.engine.editPost(p.id,{version:1,caption:'Story',slides:f.post.slides});p=await renderPost(f.engine,f.root,p.id);const info=await sharp(await readFile(join(f.root,p.render.files[0].file))).metadata();assert.equal(info.height,1920);assert.equal(p.placement,'story');assert.notEqual(p.id,f.post.id);
+});
+
+test('Instagram Login binds the token owner and keeps tokens on the Instagram API host',async t=>{
+  const f=await fixture(t);approve(f);const requests=[];
+  const env={META_GRAPH_VERSION:'v25.0',META_LOGIN_TYPE:'instagram',META_ACCESS_TOKEN:'fake-test-token',META_INSTAGRAM_ID:'101',META_PUBLIC_MEDIA_BASE:'https://example.invalid/media',ENGINE_LIVE_PUBLISH:'true'};
+  const fetcher=async(url,opts)=>{requests.push({url,opts});let data;
+    if(url.endsWith('/me?fields=user_id,username'))data={user_id:'101',username:'test_account'};
+    else if(url.endsWith('/101/media'))data={id:'container'};
+    else if(url.includes('container?fields=status_code'))data={status_code:'FINISHED'};
+    else if(url.endsWith('/101/media_publish'))data={id:'published'};
+    else data={id:'published',caption:f.post.caption,permalink:'https://www.instagram.com/p/test_fixture/',media_type:'IMAGE'};
+    return {ok:true,status:200,json:async()=>data};
+  };
+  const provider=new MetaProvider(env,fetcher);
+  const receipt=await provider.publish(f.post,{account:'test_account',accountId:'101'},()=>{});
+  assert.equal(receipt.verified,true);
+  assert.ok(requests.every(r=>r.url.startsWith('https://graph.instagram.com/v25.0/')));
+  assert.equal(requests.filter(r=>r.url.endsWith('/media_publish')).length,1);
+  const requestCount=requests.length;
+  await assert.rejects(()=>new MetaProvider({...env,META_LOGIN_TYPE:'https://untrusted.invalid'},fetcher).verify(),/META_LOGIN_TYPE/);
+  await assert.rejects(()=>new MetaProvider({...env,META_FACEBOOK_PAGE_ID:'202'},fetcher).verify(),/cannot authorize a Facebook Page/);
+  assert.equal(requests.length,requestCount);
+  await assert.rejects(()=>new MetaProvider({...env,META_INSTAGRAM_ID:'999'},fetcher).verify(),/verification failed/);
 });
 test('saving unchanged answers preserves brand approval and its queue',async t=>{
   const f=await fixture(t);approve(f);schedule(f);

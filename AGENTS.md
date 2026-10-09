@@ -1,4 +1,4 @@
-# VIRAX Engine Machine
+# VIRAX Media Engine
 
 Read START-HERE.md before setup or content work.
 Read docs/agent-workflow.md before an agent task.

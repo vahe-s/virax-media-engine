@@ -78,7 +78,7 @@ export async function createApp({dataDir=resolve(process.env.ENGINE_DATA_DIR||'.
           files['PROJECT-INSTRUCTIONS.md']=strToU8(projectInstructions(brand));
           send(res,200,Buffer.from(zipSync(files)),'application/zip',{'Content-Disposition':'attachment; filename="virax-brand-instructions.zip"'});return;
         }
-        if(req.method==='POST' && path==='/api/assets'){const input=await body(req);send(res,201,await addAsset(engine,dataDir,input.brandId,input,Buffer.from(input.base64||'','base64')));return;}
+        if(req.method==='POST' && path==='/api/assets'){const input=await body(req),asset=await addAsset(engine,dataDir,input.brandId,input,Buffer.from(input.base64||'','base64'));await saveBrand(engine.get(input.brandId,'brand'));send(res,201,asset);return;}
         if(req.method==='GET' && parts[1]==='assets' && id){const asset=engine.get(id,'asset');send(res,200,await readFile(await confined(dataDir,asset.file)),asset.mime,['image','logo'].includes(asset.role)?{}:{'Content-Disposition':'attachment; filename="brand-file"'});return;}
         if(req.method==='POST' && path==='/api/posts'){const input=await body(req);send(res,201,engine.createPost(input.brandId,input));return;}
         if(req.method==='GET' && parts[1]==='posts' && id) {
@@ -101,7 +101,7 @@ export async function createApp({dataDir=resolve(process.env.ENGINE_DATA_DIR||'.
           else if(action==='retry')result=worker.retry(id);
           else if(action==='receipt')result=worker.reportManual(id,input);
           else if(action==='story') {
-            const original=engine.get(id,'post');let story=engine.createPost(original.brandId,{title:`${original.title} · Story`,format:'story',mode:original.mode,platform:original.platform});
+            const original=engine.get(id,'post');let story=engine.createPost(original.brandId,{title:`${original.title} · Story`,format:'story',mode:original.mode,artworkMode:original.artworkMode||'overlay',platform:original.platform});
             story=engine.editPost(story.id,{version:story.version,title:story.title,caption:original.caption,mode:original.mode,slides:[original.slides[0]],claims:original.claims.filter(c=>c.slide===1)});result=story;
           } else {send(res,404,{error:'Action not found.'});return;}
           send(res,200,result);return;
@@ -136,6 +136,6 @@ if(process.argv[1] && resolve(process.argv[1])===fileURLToPath(import.meta.url))
   const app=await createApp({workerEnabled:process.env.ENGINE_WORKER!=='false'});
   if(process.argv.includes('--demo'))await seedDemo(app.engine,app.dataDir,projectRoot);
   const port=Number(process.env.PORT||4318);
-  app.server.listen(port,app.host,()=>console.log(`VIRAX Engine Machine: http://${app.host}:${port}\nPrivate files: ${app.dataDir}\nLive publication: ${process.env.ENGINE_LIVE_PUBLISH==='true'?'enabled; scoped permission still required':'disabled'}`));
+  app.server.listen(port,app.host,()=>console.log(`VIRAX Media Engine: http://${app.host}:${port}\nPrivate files: ${app.dataDir}\nLive publication: ${process.env.ENGINE_LIVE_PUBLISH==='true'?'enabled; scoped permission still required':'disabled'}`));
   for(const signal of ['SIGTERM','SIGINT'])process.on(signal,()=>app.close().then(()=>process.exit(0)));
 }

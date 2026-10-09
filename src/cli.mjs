@@ -67,6 +67,7 @@ try {
     default: result={commands:['doctor','status','demo','brand-create <name>','brand-show <id>','brand-save <id> <json>','brand-rule <id> <rule.json>','chat-context <brand>','reference-add <brand> <reference.json>','reference-show <id>','reference-inspect <id> <inspection.json>','reference-draft <id> [brief.json]','reference-complete <id>','brand-style <id> <style>','brand-export <id> <folder>','plan <brand>','post-create <brand> [json]','post-show <id>','post-save <id> <json>','task <post>','asset-add <brand> <file> [metadata.json]','import <brand> <manifest.json>','render <post>','quality <post>','review <post> <checks.json>','approve <post> <version>','authorize <grant.json>','schedule <post> <schedule.json>','cancel <post>','revoke <grant>','retry <post>','receipt <post> <receipt.json>','tick','meta-verify','export <post> [file.zip]']};
   }
   if(result?.kind==='brand')await saveProfileFiles(root,result);
+  if(result?.kind==='asset'||command==='import')await saveProfileFiles(root,engine.get(id,'brand'));
   if(result?.brand && command==='chat-context')result.profileFiles=await saveProfileFiles(root,result.brand);
   console.log(JSON.stringify(result,null,2));
 } catch(error) {console.error(JSON.stringify({error:error.message}));process.exitCode=1;} finally {store.close();}

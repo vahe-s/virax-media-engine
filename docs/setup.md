@@ -11,8 +11,8 @@ The tested local runtime is Node.js 22.16.
 Node 22 may show an experimental SQLite notice.
 
 ```sh
-git clone https://github.com/vahe-s/virax-engine-machine.git
-cd virax-engine-machine
+git clone https://github.com/vahe-s/virax-media-engine.git
+cd virax-media-engine
 npm ci
 npm run engine -- doctor
 npm start

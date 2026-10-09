@@ -20,6 +20,9 @@ test('private HTTP workflow rejects cross-origin and unauthenticated access',asy
     assert.equal((await fetch(base+'/examples/../.env.local')).status,404);
     const reference=await fetch(base+'/api/references',{method:'POST',headers,body:JSON.stringify({brandId:brand.id,url:'https://example.com/public-reference',notes:'Keep the format.'})});assert.equal(reference.status,201);
     const refs=await (await fetch(base+`/api/references?brandId=${brand.id}`,{headers})).json();assert.equal(refs.length,1);assert.equal(refs[0].status,'needs_inspection');
+    const post=app.engine.createPost(brand.id,{title:'Finished artwork fixture',format:'single',mode:'educational',artworkMode:'finished'});
+    const story=await (await fetch(base+`/api/posts/${post.id}/story`,{method:'POST',headers,body:'{}'})).json();
+    assert.equal(story.artworkMode,'finished');assert.equal(story.placement,'story');assert.equal(story.approval,null);
     assert.equal((await fetch(base+'/api/webhooks/instagram',{method:'POST',headers,body:'{}'})).status,404);
     assert.equal((await fetch(base+'/api/dm/pair',{method:'POST',headers,body:'{}'})).status,404);
   } finally {await app.close();assert.ok(relative(parent,dataDir).startsWith('http-'));await rm(dataDir,{recursive:true,force:true});}

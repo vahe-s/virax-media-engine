@@ -1,6 +1,6 @@
 # Setup request
 
-Install VIRAX Engine Machine from https://github.com/vahe-s/virax-engine-machine.
+Install VIRAX Media Engine from https://github.com/vahe-s/virax-media-engine.
 Use a separate project for my business.
 Work with me in this chat as the main interface.
 Read START-HERE.md, AGENTS.md, and docs/agent-workflow.md first.

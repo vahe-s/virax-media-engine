@@ -8,6 +8,8 @@ import { Store } from '../src/store.mjs';
 import { Engine } from '../src/engine.mjs';
 import { References,referenceUrl } from '../src/references.mjs';
 import { saveProfileFiles } from '../src/profile.mjs';
+import sharp from 'sharp';
+import { writeFile } from 'node:fs/promises';
 
 const exec=promisify(execFile);
 async function fixture(t){
@@ -17,6 +19,14 @@ async function fixture(t){
   return {root,store,engine,brand,references};
 }
 const inspection={viewed:true,format:'carousel',mode:'image-only',slideCount:3,summary:'Three test compositions.',style:'Blue surfaces and distinct complete objects.',reviewer:'Automated test fixture; no live reference was opened.'};
+
+test('CLI asset import refreshes portable brand instructions immediately',async t=>{
+  const f=await fixture(t);await saveProfileFiles(f.root,f.brand);
+  const file=join(f.root,'sample.png');await writeFile(file,await sharp({create:{width:10,height:10,channels:3,background:'#fff'}}).png().toBuffer());
+  const result=await exec(process.execPath,['src/cli.mjs','asset-add',f.brand.id,file],{cwd:resolve('.'),env:{...process.env,ENGINE_DATA_DIR:f.root},maxBuffer:1024*1024});
+  const asset=JSON.parse(result.stdout),saved=JSON.parse(await readFile(join(f.root,'brands',f.brand.id,'brand-profile.json'),'utf8'));
+  assert.ok(saved.assets.includes(asset.id));
+});
 
 test('Reference links exclude DMs, credentials, local hosts, and unsafe schemes',()=>{
   assert.equal(referenceUrl('https://www.instagram.com/p/fixture/?img_index=2&stkn=tracking&utm_source=test'),'https://www.instagram.com/p/fixture/?img_index=2');

@@ -59,7 +59,8 @@ async function renderUnlocked(engine,root,id) {
   expect(post.format!=='video','Use a video tool and the manual workflow for video.');
   const fonts=brand.assets.map(id=>engine.store.get(id)).filter(a=>a?.role==='font' && a.rightsConfirmed);
   const fontBuffers=await Promise.all(fonts.map(async a=>new Uint8Array(await readFile(await confined(root,a.file)))));
-  if(brand.answers.fonts && post.mode==='educational') expect(fonts.length && fonts[0].fontFamily,'Upload the required font and enter its exact family name before text export.');
+  const addText=post.mode!=='image-only'&&post.artworkMode!=='finished';
+  if(brand.answers.fonts && addText) expect(fonts.length && fonts[0].fontFamily,'Upload the required font and enter its exact family name before text export.');
   const exportBrand={...brand,exportFontFamily:fonts[0]?.fontFamily||'Arial'};
   const outDir=join(root,'exports',post.id,`v${version}`);await mkdir(outDir,{recursive:true});const files=[];
   for(const slide of post.slides) {
@@ -67,7 +68,7 @@ async function renderUnlocked(engine,root,id) {
     const height=post.placement==='story'?1920:1350;
     const source=await readFile(await confined(root,asset.file));expect(digest(source)===asset.sha256,'The source file changed outside the app. Import it as a new asset.');
     let image=sharp(source).resize(1080,height,{fit:'cover'});
-    if(post.mode!=='image-only') {
+    if(addText) {
       const svg=textLayout(slide,exportBrand,post.placement);await writeFile(join(outDir,`slide-${String(slide.number).padStart(2,'0')}.svg`),svg);
       const overlay=new Resvg(svg,{font:{loadSystemFonts:true,defaultFontFamily:exportBrand.exportFontFamily,fontBuffers}}).render().asPng();
       image=image.composite([{input:Buffer.from(overlay)}]);
@@ -77,7 +78,7 @@ async function renderUnlocked(engine,root,id) {
     files.push({name:file,file:`exports/${post.id}/v${version}/${file}`,width:1080,height,sha256:digest(bytes)});
   }
   const current=engine.get(id,'post');expect(current.version===version && contentHash(current)===hash && current.status===post.status,'The post changed during export. Export the new version.');
-  current.render={hash,version,files,at:now()};current.slides=current.slides.map(s=>({...s,qa:{visual:false,phone:false}}));current.approval=null;current.grant=null;current.schedule=null;current.status='draft';engine.save('post',current,'media_exported');return current;
+  current.render={hash,version,files,textOverlay:addText,at:now()};current.slides=current.slides.map(s=>({...s,qa:{visual:false,phone:false}}));current.approval=null;current.grant=null;current.schedule=null;current.status='draft';engine.save('post',current,'media_exported');return current;
 }
 export async function verifyExportBytes(root,post) {
   expect(root,'The worker needs its private media folder.');
@@ -131,7 +132,7 @@ export async function exportPack(engine,root,id) {
   for(const slide of post.slides) {
     const asset=engine.get(slide.assetId,'asset');
     files[`sources/slide-${String(slide.number).padStart(2,'0')}.png`]=new Uint8Array(await readFile(await confined(root,asset.file)));
-    if(post.mode==='educational')files[`editable/slide-${String(slide.number).padStart(2,'0')}.svg`]=new Uint8Array(await readFile(await confined(root,`exports/${post.id}/v${post.version}/slide-${String(slide.number).padStart(2,'0')}.svg`)));
+    if(post.render.textOverlay ?? (post.mode==='educational' && post.artworkMode!=='finished'))files[`editable/slide-${String(slide.number).padStart(2,'0')}.svg`]=new Uint8Array(await readFile(await confined(root,`exports/${post.id}/v${post.version}/slide-${String(slide.number).padStart(2,'0')}.svg`)));
   }
   const items=post.slides.map((s,i)=>`<article><img src="media/${post.render.files[i].name}" alt="${xml(s.alt)}"><p>${xml(s.alt)}</p></article>`).join('');
   files['index.html']=strToU8(`<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>${xml(post.title)}</title><style>body{font:16px system-ui;background:#f5f4ef;color:#222;padding:24px}main{display:flex;gap:24px;overflow:auto}article{flex:0 0 390px}img{width:390px;max-width:100%;height:auto}p{max-width:390px}</style><h1>${xml(post.title)}</h1><p>Version ${post.version} · ${xml(post.status)}. Review at phone width without zoom.</p><main>${items}</main><h2>Caption</h2><p>${xml(post.caption)}</p></html>`);

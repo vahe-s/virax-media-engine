@@ -20,7 +20,7 @@
 | Live Google Drive test | Not completed for this public engine | A user's authorized Google account |
 | Live Meta publication test | Not completed for this public engine | A user's authorized test account |
 
-The API adapter uses Facebook Login for Instagram professional accounts.
+The API adapter supports Instagram Login and Facebook Login tokens.
 It does not include an OAuth application or a hosted token exchange.
 Each installation supplies its own credentials through the environment.
 Identity verification alone does not establish every publication permission.
@@ -46,6 +46,14 @@ Save the numeric account ID in each Meta publication grant.
 The adapter checks both the name and ID before publication.
 Use the platform's private authorization flow or the host's secret controls.
 The engine does not reuse credentials from another application.
+
+For Instagram Login, set `META_LOGIN_TYPE=instagram`.
+Use `instagram_business_basic` and `instagram_business_content_publish` for profile access and content publication.
+The adapter sends this token only to `graph.instagram.com`.
+It checks the token owner's `user_id` and username before publication.
+Do not request message or comment permissions for this workflow.
+For Facebook Login, use `META_LOGIN_TYPE=facebook` and the corresponding Page or user token.
+An Instagram Login token cannot authorize a Facebook Page.
 
 ## Public media URLs
 
@@ -83,6 +91,7 @@ Never assume music can be added after publication.
 ## Official references
 
 - https://developers.facebook.com/docs/instagram-platform/instagram-api-with-facebook-login/content-publishing
+- https://developers.facebook.com/docs/instagram-platform/instagram-api-with-instagram-login/
 - https://developers.facebook.com/docs/pages-api/posts/
 - https://www.postman.com/meta/instagram/
 

@@ -1,4 +1,4 @@
-# VIRAX Engine Machine: project instructions
+# VIRAX Media Engine: project instructions
 
 Use this project for one business's media work.
 Work with the user in this chat.
@@ -7,7 +7,7 @@ Open the optional companion only for previews, approvals, assets, or settings.
 Read the current private brand profile before each task.
 Use its latest version, approved examples, saved rules, and publication permissions.
 Do not rely on memory from an unrelated chat.
-Read START-HERE.md from https://github.com/vahe-s/virax-engine-machine.
+Read START-HERE.md from https://github.com/vahe-s/virax-media-engine.
 
 Ask at most three clear questions at once.
 Handle technical steps with your authorized tools.

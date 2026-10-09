@@ -50,8 +50,8 @@ Do not promise permanent memory without a saved file or connected source.
 When shell access is available:
 
 ```sh
-git clone https://github.com/vahe-s/virax-engine-machine.git
-cd virax-engine-machine
+git clone https://github.com/vahe-s/virax-media-engine.git
+cd virax-media-engine
 npm ci
 npm run engine -- doctor
 ```

@@ -1,4 +1,4 @@
-# VIRAX Engine Machine
+# VIRAX Media Engine
 
 **Your content engine, inside your project chat.**
 
@@ -16,7 +16,7 @@ You do not need to use a separate app for normal requests.
 Create a separate project for your business in ChatGPT or your chosen agent.
 Paste this request into its chat:
 
-> Set up VIRAX Engine Machine for my business: https://github.com/vahe-s/virax-engine-machine. Read START-HERE.md. Work with me in this project chat. Ask up to three questions at a time. Save my lasting preferences. Handle the technical steps with your available tools. Open the optional companion only when useful.
+> Set up VIRAX Media Engine for my business: https://github.com/vahe-s/virax-media-engine. Read START-HERE.md. Work with me in this project chat. Ask up to three questions at a time. Save my lasting preferences. Handle the technical steps with your available tools. Open the optional companion only when useful.
 
 Your agent checks its tools and access before setup.
 It explains a missing connection only when that connection affects your request.

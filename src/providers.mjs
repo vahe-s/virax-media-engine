@@ -15,25 +15,30 @@ export class MetaProvider {
   constructor(env=process.env, fetcher=fetch) {this.env=env;this.fetcher=fetcher;}
   config() {
     expect(/^v\d+\.\d+$/.test(this.env.META_GRAPH_VERSION||'') && this.env.META_ACCESS_TOKEN,'Configure the Meta token and supported Graph API version.');
-    return {version:this.env.META_GRAPH_VERSION,token:this.env.META_ACCESS_TOKEN};
+    const loginType=this.env.META_LOGIN_TYPE||'facebook';
+    expect(['facebook','instagram'].includes(loginType),'Choose facebook or instagram for META_LOGIN_TYPE.');
+    expect(loginType!=='instagram' || !this.env.META_FACEBOOK_PAGE_ID,'Instagram Login cannot authorize a Facebook Page. Use a separate Facebook Login connection.');
+    return {version:this.env.META_GRAPH_VERSION,token:this.env.META_ACCESS_TOKEN,loginType,host:loginType==='instagram'?'graph.instagram.com':'graph.facebook.com'};
   }
   async graph(path,{method='GET',body}={}) {
     const cfg=this.config();
     expect(!path.startsWith('/') && !path.includes('://'),'Invalid Graph API path.');
     let response;
-    try {response=await this.fetcher(`https://graph.facebook.com/${cfg.version}/${path}`,{method,headers:{Authorization:`Bearer ${cfg.token}`,'Content-Type':'application/json'},body:body?JSON.stringify(body):undefined,redirect:'error',signal:AbortSignal.timeout(20000)});} catch {throw new Error('Meta did not return a response. Check the operation before any retry.');}
+    try {response=await this.fetcher(`https://${cfg.host}/${cfg.version}/${path}`,{method,headers:{Authorization:`Bearer ${cfg.token}`,'Content-Type':'application/json'},body:body?JSON.stringify(body):undefined,redirect:'error',signal:AbortSignal.timeout(20000)});} catch {throw new Error('Meta did not return a response. Check the operation before any retry.');}
     const data=await response.json();
     expect(response.ok && !data.error,`Meta request failed (${response.status}). Check token permissions and account access.`);
     return data;
   }
-  fingerprint() {return digest([this.env.META_ACCESS_TOKEN,this.env.META_GRAPH_VERSION,this.env.META_INSTAGRAM_ID,this.env.META_FACEBOOK_PAGE_ID].join('|'));}
+  fingerprint() {return digest([this.env.META_ACCESS_TOKEN,this.env.META_GRAPH_VERSION,this.env.META_INSTAGRAM_ID,this.env.META_FACEBOOK_PAGE_ID,this.env.META_LOGIN_TYPE||'facebook'].join('|'));}
   async verify() {
-    const result={id:'meta_connection',kind:'connection',fingerprint:this.fingerprint(),verifiedAt:now(),instagram:null,facebook:null};
+    const config=this.config();
+    const result={id:'meta_connection',kind:'connection',loginType:config.loginType,fingerprint:this.fingerprint(),verifiedAt:now(),instagram:null,facebook:null};
     if(this.env.META_INSTAGRAM_ID) {
       expect(/^\d+$/.test(this.env.META_INSTAGRAM_ID),'Use the numeric Instagram professional account ID.');
-      const account=await this.graph(`${this.env.META_INSTAGRAM_ID}?fields=id,username`);
-      expect(String(account.id)===this.env.META_INSTAGRAM_ID && account.username,'Instagram account verification failed.');
-      result.instagram={id:account.id,account:account.username};
+      const account=await this.graph(config.loginType==='instagram'?'me?fields=user_id,username':`${this.env.META_INSTAGRAM_ID}?fields=id,username`);
+      const id=config.loginType==='instagram'?account.user_id:account.id;
+      expect(String(id)===this.env.META_INSTAGRAM_ID && account.username,'Instagram account verification failed.');
+      result.instagram={id,account:account.username};
     }
     if(this.env.META_FACEBOOK_PAGE_ID) {
       expect(/^\d+$/.test(this.env.META_FACEBOOK_PAGE_ID),'Use the numeric Facebook Page ID.');

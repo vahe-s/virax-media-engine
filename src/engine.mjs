@@ -10,7 +10,7 @@ const clone = value => structuredClone(value);
 export function expect(value, message) { if (!value) throw new Error(message); }
 export function digest(value) { return createHash('sha256').update(typeof value === 'string' || Buffer.isBuffer(value) ? value : JSON.stringify(value)).digest('hex'); }
 export function contentHash(post) {
-  return digest({brandId:post.brandId,brandVersion:post.brandVersion,title:post.title,caption:post.caption,mode:post.mode,format:post.format,platform:post.platform,placement:post.placement,slides:post.slides.map(({qa,...s})=>s),claims:post.claims,music:post.music,...(post.referenceBrief?{referenceBrief:post.referenceBrief}:{})});
+  return digest({brandId:post.brandId,brandVersion:post.brandVersion,title:post.title,caption:post.caption,mode:post.mode,format:post.format,platform:post.platform,placement:post.placement,slides:post.slides.map(({qa,...s})=>s),claims:post.claims,music:post.music,...(post.artworkMode?{artworkMode:post.artworkMode}:{}),...(post.referenceBrief?{referenceBrief:post.referenceBrief}:{})});
 }
 export class Engine {
   constructor(store) { this.store = store; }
@@ -80,8 +80,11 @@ export class Engine {
     const count=format==='carousel'?Number(input.slideCount||9):1;
     expect(Number.isInteger(count)&&count>=1&&count<=10&&(format!=='carousel'||count>=2),'Use two to ten carousel slides or one image for other formats.');
     const mode=input.mode==='image-only'?'image-only':'educational';
+    const artworkMode=input.artworkMode||'overlay';
+    expect(['overlay','finished'].includes(artworkMode),'Choose overlay text or finished artwork.');
     const slides=Array.from({length:count},(_,i)=>({number:i+1,headline:'',body:'',message:'',evidence:'',composition:'',callouts:'',assetId:null,alt:'',qa:{visual:false,phone:false}}));
     const post={id:newId('post'),kind:'post',brandId,brandVersion:brand.version,version:1,title:text(input.title||'Untitled post',160),caption:'',mode,format,platform:input.platform==='facebook'?'facebook':'instagram',placement:format==='story'?'story':'feed',status:'draft',slides,claims:[],creativeIntent:input.creativeIntent?{type:text(input.creativeIntent.type,100),cta:text(input.creativeIntent.cta,1000),customPrompt:text(input.creativeIntent.customPrompt)}:null,music:brand.answers.music?.startsWith('Always')?'required':'none',accuracy:null,approval:null,grant:null,schedule:null,receipt:null,createdAt:now()};
+    post.artworkMode=artworkMode;
     return this.save('post',post,'post_created');
   }
   editPost(id, input) {
@@ -91,6 +94,7 @@ export class Engine {
       expect(!['publishing','published','published_reported','simulated_published','verification_required','manual_due'].includes(post.status),'Create a new version as a separate post after publication starts.');
       this.store.snapshot(post);
       for(const key of ['title','caption','mode','music']) if(input[key]!==undefined) post[key]=text(input[key],key==='caption'?2200:160);
+      if(input.artworkMode!==undefined){expect(['overlay','finished'].includes(input.artworkMode),'Choose overlay text or finished artwork.');post.artworkMode=input.artworkMode;}
       expect(['educational','image-only'].includes(post.mode),'Choose educational or image-only content.');
       expect(['none','optional','required'].includes(post.music),'Choose a valid music requirement.');
       if(input.slides) {

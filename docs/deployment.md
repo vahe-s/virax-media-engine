@@ -49,7 +49,7 @@ The Dockerfile is provided as a deployment starting point.
 Container deployment needs a separate environment test.
 
 ```sh
-docker build -t virax-engine-machine .
+docker build -t virax-media-engine .
 ```
 
 Configure a persistent volume at `/data`.

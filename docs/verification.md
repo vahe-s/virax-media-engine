@@ -6,7 +6,7 @@ Use the current workflow result as evidence for those additional environments.
 
 ## Automated checks
 
-The test suite includes 36 tests:
+The test suite includes 39 tests:
 
 - Private HTTP sessions, origin checks, request tokens, and path limits.
 - New brand persistence without private business defaults.
@@ -14,6 +14,8 @@ The test suite includes 36 tests:
 - Pasted reference normalization, duplicate requests, observed formats, and resume of the same draft.
 - Rejection of inbox links and absent DM webhook routes.
 - Real image exports, phone previews, captions, sources, and ZIP packs.
+- Finished artwork retains its existing text layout during export.
+- Asset imports immediately refresh the portable brand profile.
 - Factual and visual review requirements, source records, image rights, and distinct images.
 - Approval invalidation after edits or brand changes.
 - Timezones, missing local times, and repeated local times.
@@ -21,6 +23,7 @@ The test suite includes 36 tests:
 - A hold after an uncertain external result or interrupted process.
 - Separate Story assets and music requirements.
 - Meta image, carousel, Story, and Facebook contracts with simulated responses.
+- Instagram Login host selection and token-owner checks with simulated responses.
 - Google authorization state, file checksums, retries, conflicts, pause controls, and secret exclusion with simulated responses.
 
 Run the checks yourself:

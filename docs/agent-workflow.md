@@ -86,6 +86,11 @@ Start the companion only when a visual view or its services are needed.
 Use docs/references.md for links pasted by the user.
 An import with `postId` updates that post and invalidates its old approval.
 An import without `postId` creates a new post.
+Set `artworkMode` to `finished` when imported images already contain their final text and layout.
+Keep the actual visible text in the slide record for review.
+The exporter preserves that layout without another text layer.
+Use `overlay` only when the engine must add the text.
+Both modes still require factual and visual checks.
 Use `task` to read and resume an existing job before generating artwork again.
 
 ## Approval and publication
