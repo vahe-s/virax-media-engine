@@ -82,6 +82,13 @@ The app does not mirror deletions into Drive.
 
 Connection errors appear in Settings.
 A retry uses the saved file identifiers to avoid duplicate copies.
+Reconnect waits until an active backup finishes.
+The app verifies the new account before it replaces saved credentials.
+A failed identity check keeps the current connection.
+Reconnect to the same account to keep its folder and backup settings.
+If you choose another account, select each brand and enable its backup again.
+The app then creates a new destination and retains the old destination record locally.
+Existing files in the old Drive remain unchanged.
 Disconnect revokes the Google connection and stops sync.
 Existing Drive files remain available.
 

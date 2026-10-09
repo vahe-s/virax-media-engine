@@ -17,6 +17,7 @@
 | Reels and other video | Agent-assisted/manual | Video tool and native publication path |
 | Other platforms | Manual | Native app or separately verified connector |
 | Google Drive backup sync | Native connection; mock-tested | Own Google OAuth app and account consent |
+| Google account changes | Separate destinations; mock-tested | Enable each brand backup again after an account change |
 | Live Google Drive test | Not completed for this public engine | A user's authorized Google account |
 | Live Meta publication test | Not completed for this public engine | A user's authorized test account |
 

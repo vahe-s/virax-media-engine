@@ -6,7 +6,7 @@ Use the current workflow result as evidence for those additional environments.
 
 ## Automated checks
 
-The test suite includes 39 tests:
+The test suite includes 42 tests:
 
 - Private HTTP sessions, origin checks, request tokens, and path limits.
 - New brand persistence without private business defaults.
@@ -25,6 +25,8 @@ The test suite includes 39 tests:
 - Meta image, carousel, Story, and Facebook contracts with simulated responses.
 - Instagram Login host selection and token-owner checks with simulated responses.
 - Google authorization state, file checksums, retries, conflicts, pause controls, and secret exclusion with simulated responses.
+- Google reconnect waits for active backups and verifies identity before it replaces saved credentials.
+- A different Google account starts with backup disabled and a separate destination record.
 
 Run the checks yourself:
 

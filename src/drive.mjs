@@ -15,9 +15,10 @@ export class DriveSync {
   configured(){return Boolean(this.env.GOOGLE_CLIENT_ID && this.env.GOOGLE_CLIENT_SECRET);}
   async init(){if(!this.configured())return;try{this.credentials=JSON.parse(await readFile(this.tokenFile,'utf8'));if(this.credentials.refresh_token)this.loadClient();}catch(e){if(e.code!=='ENOENT')throw new Error('The private Google connection file cannot be read.');}}
   loadClient(redirect=this.env.GOOGLE_REDIRECT_URI){this.client=this.clientFactory(this.env.GOOGLE_CLIENT_ID,this.env.GOOGLE_CLIENT_SECRET,redirect);this.client.setCredentials(this.credentials);return this.client;}
-  async saveTokens(tokens){this.credentials={...this.credentials,...tokens};await mkdir(dirname(this.tokenFile),{recursive:true});const temp=this.tokenFile+'.tmp';await writeFile(temp,JSON.stringify(this.credentials),{mode:0o600});await rename(temp,this.tokenFile);}
+  async saveTokens(tokens,{replace=false}={}){const next=replace?{...tokens}:{...this.credentials,...tokens};await mkdir(dirname(this.tokenFile),{recursive:true});const temp=this.tokenFile+'.tmp';await writeFile(temp,JSON.stringify(next),{mode:0o600});await rename(temp,this.tokenFile);this.credentials=next;}
   status(){const c=this.store.get('drive_connection');return {configured:this.configured(),connected:Boolean(this.client && this.credentials.refresh_token),account:c?.account||null,verifiedAt:c?.verifiedAt||null,busy:this.busy,brands:this.store.list('drive_sync').map(({files,...s})=>({...s,fileCount:Object.values(files||{}).filter(f=>f.complete).length}))};}
   async begin(origin){
+    expect(!this.busy,'Wait for the active Drive operation before reconnecting.');
     expect(this.configured(),'Set your Google OAuth client ID and secret first. Read the Google Drive guide.');
     const redirect=this.env.GOOGLE_REDIRECT_URI||`${origin}/api/drive/callback`;expect(redirect===`${origin}/api/drive/callback`,'The Google redirect URI must match this studio address.');
     const client=this.clientFactory(this.env.GOOGLE_CLIENT_ID,this.env.GOOGLE_CLIENT_SECRET,redirect),verifier=await client.generateCodeVerifierAsync(),state=randomBytes(32).toString('hex');
@@ -25,17 +26,32 @@ export class DriveSync {
     return {state,url:client.generateAuthUrl({scope:[scope],access_type:'offline',prompt:'consent',state,code_challenge_method:'S256',code_challenge:verifier.codeChallenge})};
   }
   async finish(state,cookie,code){
+    expect(!this.busy,'Wait for the active Drive operation before reconnecting.');
     const pending=this.pending.get(state);expect(pending && pending.expires>Date.now() && cookie===state,'The Google connection request expired or does not match this browser.');this.pending.delete(state);
-    expect(code,'Google did not return permission.');let tokens;
-    try {({tokens}=await pending.client.getToken({code,codeVerifier:pending.verifier.codeVerifier}));const info=await pending.client.getTokenInfo(tokens.access_token);expect(info.scopes?.includes(scope),'Google Drive file permission is missing.');}catch {throw new Error('Google authorization failed. Reconnect through Settings.');}
-    expect(tokens.refresh_token,'Google did not provide offline access. Reconnect and grant access.');this.credentials={};await this.saveTokens(tokens);this.client=pending.client;this.client.setCredentials(this.credentials);
-    const info=await this.request('/drive/v3/about?fields=user(displayName,emailAddress)');
-    this.store.put('connection',{id:'drive_connection',kind:'connection',account:info.user?.emailAddress||info.user?.displayName||'Google account',verifiedAt:now()});
+    expect(code,'Google did not return permission.');this.busy=true;
+    try {
+      let tokens;
+      try {({tokens}=await pending.client.getToken({code,codeVerifier:pending.verifier.codeVerifier}));const info=await pending.client.getTokenInfo(tokens.access_token);expect(info.scopes?.includes(scope),'Google Drive file permission is missing.');}catch {throw new Error('Google authorization failed. Reconnect through Settings.');}
+      expect(tokens.refresh_token,'Google did not provide offline access. Reconnect and grant access.');pending.client.setCredentials(tokens);
+      const info=await this.request('/drive/v3/about?fields=user(displayName,emailAddress,permissionId)',{client:pending.client,persistTokens:false}),user=info.user;
+      expect(user?.permissionId,'Google did not confirm the account identity. Reconnect through Settings.');
+      const previous=this.store.get('drive_connection'),sameAccount=previous?.accountId?previous.accountId===user.permissionId:Boolean(previous?.account&&user.emailAddress&&previous.account.toLowerCase()===user.emailAddress.toLowerCase());
+      // Pause and preserve old destinations before any token change can reach disk.
+      // A new account must receive a new, explicit choice to enable each backup.
+      if(!sameAccount)this.store.tx(()=>{
+        for(const config of this.store.list('drive_sync')){
+          if(Object.keys(config.files||{}).length)this.store.put('drive_archive',{...config,id:`drive_archive_${randomBytes(16).toString('hex')}`,kind:'drive_archive',account:previous?.account||null,accountId:previous?.accountId||null,archivedAt:now()});
+          this.store.put('drive_sync',{id:config.id,kind:'drive_sync',brandId:config.brandId,accountId:user.permissionId,enabled:false,automatic:false,files:{},state:'not_enabled'});
+        }
+      });
+      await this.saveTokens(pending.client.credentials,{replace:true});this.client=pending.client;
+      this.store.put('connection',{id:'drive_connection',kind:'connection',accountId:user.permissionId,account:user.emailAddress||user.displayName||'Google account',verifiedAt:now()});
+    }finally{this.busy=false;}
     return this.status();
   }
-  async request(path,{method='GET',body,headers={},raw=false,missing=false}={}){
-    expect(this.client,'Connect Google Drive first.');let token;
-    try{token=(await this.client.getAccessToken()).token;if(this.client.credentials?.refresh_token)await this.saveTokens(this.client.credentials);}catch{throw new Error('Google access expired. Reconnect through Settings.');}
+  async request(path,{method='GET',body,headers={},raw=false,missing=false,client=this.client,persistTokens=true}={}){
+    expect(client,'Connect Google Drive first.');let token;
+    try{token=(await client.getAccessToken()).token;if(persistTokens&&client.credentials?.refresh_token)await this.saveTokens(client.credentials);}catch{throw new Error('Google access expired. Reconnect through Settings.');}
     expect(token,'Google access is unavailable.');
     const url=path.startsWith('https://')?new URL(path):new URL(path,'https://www.googleapis.com');
     expect(url.protocol==='https:' && url.hostname==='www.googleapis.com','Invalid Google API upload address.');
@@ -50,14 +66,14 @@ export class DriveSync {
     if(current){config.enabled=current.enabled;config.automatic=current.automatic;if(!current.enabled){config.state=current.state==='disconnected'?'disconnected':'paused';config.error=null;}}
     this.store.put('drive_sync',config);return config;
   }
-  configure(brandId,input){this.engine.get(brandId,'brand');const config=this.config(brandId);if(input.enabled)expect(this.client && this.credentials.refresh_token,'Connect Google Drive before you enable sync.');config.enabled=input.enabled===true;config.automatic=config.enabled&&input.automatic===true;config.state=config.enabled?'pending':'paused';config.error=null;return this.store.put('drive_sync',config);}
+  configure(brandId,input){this.engine.get(brandId,'brand');const config=this.config(brandId);if(input.enabled){expect(!this.busy,'Wait for the active Drive operation before enabling sync.');expect(this.client && this.credentials.refresh_token,'Connect Google Drive before you enable sync.');}config.enabled=input.enabled===true;config.automatic=config.enabled&&input.automatic===true;config.state=config.enabled?'pending':'paused';config.error=null;return this.store.put('drive_sync',config);}
   async disconnect(){
     expect(!this.busy,'Wait for the active sync before disconnecting.');this.busy=true;
     try{
       if(this.client)try{await this.client.revokeCredentials();}catch{throw new Error('Google did not confirm revocation. Retry or remove access in your Google account.');}
-      this.credentials={};await this.saveTokens({});this.client=null;
+      await this.saveTokens({},{replace:true});this.client=null;
       for(const s of this.store.list('drive_sync')){s.enabled=false;s.automatic=false;s.state='disconnected';this.store.put('drive_sync',s);}
-      this.store.put('connection',{id:'drive_connection',kind:'connection',account:null});
+      this.store.put('connection',{...this.store.get('drive_connection'),id:'drive_connection',kind:'connection',account:null,verifiedAt:null});
     }finally{this.busy=false;}
     return this.status();
   }
