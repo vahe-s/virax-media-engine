@@ -11,7 +11,9 @@ import { Worker } from '../src/worker.mjs';
 import { MetaProvider } from '../src/providers.mjs';
 import { DriveSync } from '../src/drive.mjs';
 import { resolveTime } from '../src/time.mjs';
-import { recommendations } from '../src/interview.mjs';
+import { recommendations, stages, styles } from '../src/interview.mjs';
+import { projectInstructions, saveProfileFiles } from '../src/profile.mjs';
+import { taskPack } from '../src/media.mjs';
 
 async function fixture(t) {
   const parent=resolve('.data/tests');await mkdir(parent,{recursive:true});const root=await mkdtemp(join(parent,'case-'));
@@ -33,6 +35,33 @@ function schedule(f,provider='demo',extra={}) {
 test('fresh business survives a new database session without private-brand defaults',async t=>{
   const f=await fixture(t);f.store.close();const reopened=new Store(join(f.root,'state.sqlite'));const saved=reopened.get(f.brand.id);
   assert.equal(saved.answers.business,'Handmade ceramic vessels for quiet homes.');assert.equal(saved.stage,3);assert.equal(saved.style,'minimal');assert.equal(reopened.list('grant').length,0);reopened.close();
+});
+
+test('setup works without references and exports the selected tip preference',async t=>{
+  const f=await fixture(t);
+  let b=f.engine.updateBrand(f.brand.id,{version:f.brand.version,answers:{creativeStart:'I do not have references. Give me ideas.',tips:'No tips'}});
+  assert.equal(styles.length,7);
+  for(const style of styles)b=f.engine.chooseStyle(b.id,style.id);
+  assert.equal(f.engine.plan(b.id).entries.length>0,true);
+  assert.equal(f.store.list('reference').length,0);
+  assert.equal(stages.flatMap(stage=>stage.fields).some(field=>field.key==='music'),false);
+  await saveProfileFiles(f.root,b);
+  const instructions=await readFile(join(f.root,'brands',b.id,'PROJECT-INSTRUCTIONS.md'),'utf8');
+  assert.match(instructions,/Do not give optional capability tips/);
+  assert.match(instructions,/seven distinct visual previews/);
+  assert.match(instructions,/one finished sample before a full batch/);
+  const task=taskPack(f.engine,f.post.id);
+  assert.ok(task.instructions.some(rule=>rule.includes('Do not give optional capability tips')));
+  assert.match(projectInstructions({...b,answers:{tips:'Fewer tips'}}),/at a major milestone/);
+  assert.match(projectInstructions({...b,answers:{}}),/every two or three substantive replies/);
+});
+
+test('hidden legacy music preference remains effective after setup edits',async t=>{
+  const f=await fixture(t);
+  let b=f.engine.updateBrand(f.brand.id,{version:f.brand.version,answers:{music:'Always required; hold if unavailable'}});
+  b=f.engine.updateBrand(b.id,{version:b.version,answers:{creativeStart:'I do not have references. Give me ideas.',tips:'Regular useful tips'}});
+  assert.equal(b.answers.music,'Always required; hold if unavailable');
+  assert.equal(f.engine.createPost(b.id,{format:'single'}).music,'required');
 });
 test('approval requires actual exports and per-slide review',async t=>{
   const f=await fixture(t);assert.throws(()=>f.engine.decide(f.post.id,{version:f.post.version,action:'approve'}),/visual and phone-size/);

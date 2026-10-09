@@ -13,7 +13,9 @@ Explain a recommendation when the user does not know the answer.
 - Which website can we inspect?
 - Where do you serve customers?
 
-Suggest three preliminary content themes after these answers.
+Offer ideas without references and work from supplied references as equal choices.
+Say: "I do not have references. Give me ideas." as an explicit available answer.
+Suggest preliminary content themes after these answers.
 Label them as preliminary until the audience and goals are clear.
 
 ## Stage 2: Audience
@@ -44,17 +46,24 @@ Do not promise a follower count or viral reach.
 
 Request the brand kit, original logo, and licensed font files.
 Show actual visual directions before a full batch.
+Present seven distinct previews tailored to the business, with a short explanation for each.
 Ask the user to select or refine one direction.
+Allow combinations and custom instructions.
+Create one finished sample in the chosen direction and get approval before a full batch.
+Keep the approved sample as a versioned visual reference.
 
 ## Stage 5: Media
 
 - Should images be generated, supplied, licensed stock, or a mixture?
 - Should images contain text?
-- Which references show the desired result?
-- Is music optional or required?
+- Do you want original ideas, supplied references, or both?
+- Which references should guide us, if you have any?
 
 Inspect reference media before adapting it.
 Keep image-only references free of unrequested text and sales frames.
+References are optional. Use the approved direction when none are supplied.
+Do not ask about music during standard setup. Automatic music is not implemented.
+If the user requests music, explain the manual option and preserve that requirement until they change it.
 
 ## Stage 6: Facts and rights
 

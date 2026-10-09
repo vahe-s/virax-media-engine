@@ -9,13 +9,23 @@ The companion supports visual review and file controls.
 Ask for the business name, what it does, and its website.
 Save these answers before the next questions.
 Study the actual site when access exists.
-Suggest three useful content directions and explain each briefly.
+Offer two equal paths: "I have references" and "I do not have references. Give me ideas."
+Let the user combine both paths or give a custom request.
+Never require a reference to continue.
+Suggest relevant content ideas from the business, audience, and verified research.
+Show seven distinct visual directions, with actual previews tailored to the business.
+Use the style catalog as a starting point; respect supplied references and brand rules.
+Let the user select, combine, refine, or replace the directions.
 
 Continue through the interview topics in docs/onboarding.md.
 Ask up to three relevant questions at a time.
 Skip questions that the profile already answers.
 Accept free text, exact counts, random choices, and custom prompts.
 Show real style samples before a full batch.
+After the user chooses a direction, create one finished sample for approval.
+Save the approved sample's post ID and exact version in the brand's approved-example records.
+Do not treat a catalog selection as approval of a finished sample.
+Read docs/helpful-tips.md and give useful tips during normal work.
 
 Do not expose internal command names or JSON fields unless the user needs them.
 Ask the user to act only when their account, consent, file, or choice is required.

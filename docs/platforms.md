@@ -14,7 +14,7 @@
 | Instagram image Stories | Meta adapter; mock-tested | Eligible account and permissions |
 | Facebook Page photo posts | Meta adapter; mock-tested | Page token and approved permissions |
 | Facebook Stories | Manual | Native platform or supported browser tools |
-| Music | Manual | Track rights and native format support |
+| Automatic music | Not implemented; excluded from standard setup | A requested track needs a separate verified manual path |
 | Reels and other video | Agent-assisted/manual | Video tool and native publication path |
 | Other platforms | Manual | Native app or separately verified connector |
 | Google Drive backup sync | Native connection; manual and automatic copies verified live | Own Google OAuth app and account consent |
@@ -87,6 +87,10 @@ Save the source, check date, audience timezone, and rationale with the plan.
 Do not promise an engagement rate from a time slot.
 
 Required music blocks the automatic Meta path in this release.
+The standard interview does not offer music as an automatic feature.
+The adapter has no audio search, track selection, or track attachment implementation.
+Saved music requirements remain intact; removing a setup option must not remove a user's existing requirement.
+Instagram's native music feature does not prove that this adapter supports music.
 Use the native manual path and inspect the attached audio.
 Never replace a requested carousel with a Reel without permission.
 Never assume music can be added after publication.

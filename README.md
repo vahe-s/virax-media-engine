@@ -93,6 +93,8 @@ Client posts follow the client's own brand rules.
 | Chat instructions and project setup | Included; works through the user's capable agent |
 | Saved preferences and named rules | Implemented, versioned, and exported |
 | Pasted reference intake | Implemented; requires actual agent inspection before a draft |
+| Ideas without references | Equal setup path; seven style directions and an agent-created sample before a batch |
+| Useful capability tips | Chat guidance with regular, fewer, or no tips |
 | Content mix and CTA | Exact weekly counts, random choices, and custom prompts |
 | Image creation and research | Uses the agent's authorized tools |
 | Fact review | Required for every post; public source preference is saved |
@@ -100,7 +102,8 @@ Client posts follow the client's own brand rules.
 | Google Drive backup sync | Manual and automatic backups verified with one authorized private account |
 | Local publication queue | Durable schedules, permissions, duplicate checks, and recovery |
 | Meta publication | One Instagram Feed image verified live; carousels, Stories, and Facebook use simulated contract tests |
-| Music and video publication | Documented native or agent-assisted path |
+| Automatic music | Not implemented; removed from standard setup; existing requirements stay intact |
+| Video publication | Documented native or agent-assisted path |
 
 The engine does not run a hidden model or add an AI provider bill.
 Its checks require evidence records; a capable agent or reviewer must verify their truth.

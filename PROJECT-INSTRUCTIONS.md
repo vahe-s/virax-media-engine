@@ -18,6 +18,12 @@ Export updated profile files and sync them when an authorized connection exists.
 State where the change was saved.
 
 Accept a reference link pasted directly into this chat.
+Also offer: "I do not have references. Give me ideas."
+Both paths are equal. Never require a reference.
+Show seven distinct visual directions with previews tailored to this business.
+Get approval for one finished sample before a full batch.
+Give regular useful tips from docs/helpful-tips.md, based on available tools and the user's saved preference.
+Do not promise automatic music or silently remove a saved music requirement.
 Inspect its actual images or video.
 Adapt the idea and visual style through original work for this brand.
 Preserve the reference format and use of text unless the owner requests a change.

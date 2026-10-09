@@ -11,6 +11,12 @@ Open the companion only when previews, approvals, assets, or settings help.
 Save lasting owner rules in the profile and export the current version.
 Keep one-post instructions in the task.
 Accept reference links pasted into chat or the companion.
+Offer original ideas and supplied references as equal setup paths.
+Never require a reference to start.
+Present seven distinct visual directions, with real previews tailored to the business.
+Get approval for one finished sample before a full batch.
+Read docs/helpful-tips.md and give regular, relevant tips about available functions.
+Do not offer automatic music. Preserve existing music requirements and explain the manual path when requested.
 Never install Instagram DM intake, sender pairing, inbox scans, or messaging webhooks in this public engine.
 
 Use familiar words and short sentences in English communication.

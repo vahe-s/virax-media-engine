@@ -27,8 +27,8 @@ export const stages = [
   {id:'media',title:'Choose the source of your images',note:'A reference defines the format. It does not prove factual claims.',fields:[
     {key:'media',label:'Where should the images come from?',type:'multi',options:['Original generated images','My photographs','Licensed stock','A mixture','Random from permitted sources','Custom'],required:true},
     {key:'textMode',label:'What text belongs on the images?',type:'select',options:['Follow each reference','Educational text and captions','Images only','Random when no reference is supplied','Custom'],required:true},
-    {key:'references',label:'Which posts or sites show your desired style?',type:'textarea',placeholder:'Paste reference links and explain what you like.'},
-    {key:'music',label:'Is music required?',type:'select',options:['No music required','Required when supported','Always required; hold if unavailable']} ]},
+    {key:'creativeStart',label:'How would you like to start?',type:'select',options:['I do not have references. Give me ideas.','I have a reference or Instagram link.','Help me explore both.','Custom']},
+    {key:'references',label:'Reference links (optional)',type:'textarea',placeholder:'Leave this empty for original ideas. Or paste links and explain what you like.'} ]},
   {id:'facts',title:'Keep the content true',note:'We separate your confirmed business facts from external research.',fields:[
     {key:'facts',label:'Which business facts can we use?',type:'textarea',placeholder:'Confirmed services, product details, hours, and approved offers.'},
     {key:'limits',label:'Which claims or subjects must we avoid?',type:'textarea'},
@@ -40,7 +40,8 @@ export const stages = [
     {key:'timezone',label:'What is your publication timezone?',required:true,placeholder:'America/New_York'},
     {key:'budget',label:'What is the monthly limit for paid tools?',placeholder:'0 USD. Use my existing tools only.'},
     {key:'approval',label:'How should content reach publication?',type:'select',options:['Review each post','Review each batch','Consider ongoing approval after a test']},
-    {key:'publicationHours',label:'Which audience data or time limits should guide the schedule?',type:'textarea',placeholder:'Audience activity, past results, timezone, and times to avoid.'} ]}
+    {key:'publicationHours',label:'Which audience data or time limits should guide the schedule?',type:'textarea',placeholder:'Audience activity, past results, timezone, and times to avoid.'},
+    {key:'tips',label:'How often should your agent suggest useful features?',type:'select',options:['Regular useful tips','Fewer tips','No tips']} ]}
   ,creativeStage,
   {id:'storage',title:'Keep your work available',note:'Google Drive sync needs your own Google connection. You can activate it in Settings.',fields:[
     {key:'storage',label:'Where should we keep a copy?',type:'select',options:['Local files only','Google Drive and local files']},
@@ -48,7 +49,8 @@ export const stages = [
     {key:'storageNotes',label:'Which private folder or storage rules should we use?',type:'textarea',placeholder:'The app creates its own private folder. Describe any additional backup requirements.'}
   ]}
 ];
-export const answerKeys = new Set([...stages.flatMap(s => s.fields.flatMap(f => [f.key,f.key+'Custom'])),'randomSeed','customChoices']);
+// Retain saved music requirements for existing users, without offering automatic music in setup.
+export const answerKeys = new Set([...stages.flatMap(s => s.fields.flatMap(f => [f.key,f.key+'Custom'])),'music','randomSeed','customChoices']);
 export function nextQuestions(answers) {
   const vague = /^(everyone|anything|everything|all people|not sure|idk)$/i;
   const followups = [];
@@ -86,5 +88,9 @@ export function recommendations(answers) {
 export const styles = [
   {id:'editorial',name:'Warm editorial',description:'Natural texture. Generous space. A calm, human voice.',image:'01-ritual.jpg',palette:['#f5f0e4','#b85f3e','#292c23']},
   {id:'contrast',name:'Bold contrast',description:'Close detail. Strong color. Short, direct headlines.',image:'02-beans.jpg',palette:['#e76c42','#241a15','#faf5eb']},
-  {id:'minimal',name:'Quiet precision',description:'Clean comparisons. Pale surfaces. Clear information.',image:'03-grind.jpg',palette:['#f6f4ed','#536150','#262923']}
+  {id:'minimal',name:'Quiet precision',description:'Clean comparisons. Pale surfaces. Clear information.',image:'03-grind.jpg',palette:['#f6f4ed','#536150','#262923']},
+  {id:'luxury',name:'Luxury editorial',description:'Sculpted light. Rich surfaces. Space around the product.',image:null,palette:['#13243d','#d6bd87','#f8f3e8']},
+  {id:'educational',name:'Visual explanations',description:'Diagrams, useful labels, and comparisons that explain each claim.',image:null,palette:['#eff6ff','#1764ce','#172b45']},
+  {id:'playful',name:'Playful collage',description:'Unexpected scale. Cutout shapes. Humor that fits the audience.',image:null,palette:['#ffc940','#dd398b','#372070']},
+  {id:'documentary',name:'Documentary stories',description:'Real settings, process details, and sequences with a clear story.',image:null,palette:['#e6dfd0','#52625b','#282925']}
 ];

@@ -1,6 +1,6 @@
 import { createHash } from 'node:crypto';
 import { newId } from './store.mjs';
-import { answerKeys, recommendations, stages } from './interview.mjs';
+import { answerKeys, recommendations, stages, styles } from './interview.mjs';
 import { parseMix } from './creative.mjs';
 import { resolveTime } from './time.mjs';
 
@@ -51,7 +51,7 @@ export class Engine {
     });
   }
   chooseStyle(id, style) {
-    expect(['editorial','contrast','minimal','custom'].includes(style),'Choose a known style.');
+    expect(style==='custom'||styles.some(item=>item.id===style),'Choose a known style.');
     const brand=this.get(id,'brand');
     return this.updateStyle(brand,style);
   }

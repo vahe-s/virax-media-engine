@@ -12,7 +12,8 @@ The local browser companion is optional.
 4. Answer the agent's questions in your own words.
 
 Keep future requests in that project.
-Paste reference links directly into chat.
+Ask for original ideas or paste reference links directly into chat.
+You can say: "I do not have references. Give me ideas."
 Use the companion when you want to see, approve, or organize the work.
 
 If your agent cannot create project instructions, copy [PROJECT-INSTRUCTIONS.md](PROJECT-INSTRUCTIONS.md) into them.
@@ -26,7 +27,7 @@ Keep the current private brand profile in the project sources or a connected pri
 4. Reuse saved answers and rules.
 5. Ask at most three short questions at a time.
 6. Save each useful answer.
-7. Suggest suitable content and show actual style samples.
+7. Offer ideas and supplied references as equal paths. Show seven distinct previews tailored to the business.
 8. Accept reference links in chat.
 9. Inspect the actual reference before you choose its format.
 10. Create finished original media with your authorized tools.
@@ -39,6 +40,9 @@ Do technical work yourself when tools and authorization permit it.
 Do not give a nontechnical user a terminal checklist when you can run those steps.
 Do not force the user through the browser questionnaire.
 Use the questions as a conversational guide.
+Get approval for one finished sample before a full batch.
+Give regular useful tips from docs/helpful-tips.md during normal work.
+Show only functions that the current tools support.
 
 Save lasting owner instructions in the brand profile.
 Keep temporary changes in the task.

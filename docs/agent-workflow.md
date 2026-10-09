@@ -19,6 +19,10 @@ Use docs/onboarding.md and the application's interview stages.
 Conduct the interview in the project chat by default.
 Ask at most three short questions at a time.
 Use docs/chat-workflow.md to save lasting preferences and project instructions.
+Offer original ideas and supplied references as equal paths.
+Show seven distinct visual previews during style setup, then get approval for one finished sample before a batch.
+Reuse a suitable approved sample when one already exists.
+Read docs/helpful-tips.md and give regular contextual tips according to the saved preference.
 Do not repeat answers already saved in the profile.
 Ask a specific follow-up for answers such as "everyone" or "anything".
 Separate confirmed business facts from research and assumptions.
@@ -30,8 +34,8 @@ Do not claim website research from the app's local topic suggestions.
 
 ## Create finished content
 
-1. Inspect the actual supplied reference media.
-2. Preserve the format, purpose, sequence, and use of text.
+1. Inspect supplied references, if any. Otherwise use the approved style and current brief.
+2. Preserve the reference format and use of text when a reference applies.
 3. Choose the number of slides from the brief and platform limits.
 4. Use nine slides for an educational carousel unless the user chooses another length.
 5. Map every factual claim to a suitable primary source.
